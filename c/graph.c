@@ -29,24 +29,31 @@ void graph_free(struct Graph * g) {
     free(g);
 }
 
+void graph_add_single_edge(struct Graph * g, int from, int to, int weight) {
+    struct Vertex *f = &(g->vertex_array[from-1]);
+    struct Neighbor *nforward = (struct Neighbor *)malloc(sizeof(struct Neighbor));
+    nforward->vertex_index = to-1;
+    nforward->weight = weight;
+    nforward->next = NULL;
+    if (f->neighbors == NULL) {
+        f->neighbors = nforward;
+    } else {
+        nforward->next = f->neighbors;
+        f->neighbors = nforward;
+    }
+}
+
 void graph_add_edge(struct Graph * g, int from, int to, int weight) {
 #ifdef DEBUG
     printf("graph_add_edge(%d, %d, %d)\n", from, to, weight);
 #endif
-    struct Vertex *f = &(g->vertex_array[from-1]);
-    struct Neighbor *n = (struct Neighbor *)malloc(sizeof(struct Neighbor));
-    n->vertex_index = to-1;
-    n->weight = weight;
-    n->next = NULL;
-    if (f->neighbors == NULL) {
-        f->neighbors = n;
-    } else {
-        n->next = f->neighbors;
-        f->neighbors = n;
-    }
+    graph_add_single_edge(g, from, to, weight);
+    graph_add_single_edge(g, to, from, weight);
+
 }
 
-struct Neighbor * graph_get_neighbor(struct Graph * g, int from) {
-    struct Vertex f = g->vertex_array[from-1];
+
+struct Neighbor * graph_get_neighbor(struct Graph * g, unsigned int from) {
+    struct Vertex f = g->vertex_array[from];
     return f.neighbors;
 }

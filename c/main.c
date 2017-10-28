@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include "graph.h"
+#include "dijkstra.h"
 
 int main() {
     // Read graph data from stdin
     // Write result to stdout
     int num_test_cases = 0;
     scanf("%d\n", &num_test_cases);
-    printf("%d\n", num_test_cases);
     for (int i = 0; i < num_test_cases; i++) {
         int num_verticles = 0;
         int num_edges = 0;
@@ -21,7 +21,7 @@ int main() {
         }
         int starting_verticle = 0;
         scanf("%d\n", &starting_verticle);
-        printf("%d\n", starting_verticle);
+        dijkstra(g, starting_verticle - 1);
         graph_free(g);
     }
 }

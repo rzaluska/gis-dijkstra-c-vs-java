@@ -17,5 +17,5 @@ struct Graph {
 
 struct Graph * new_graph(int num_verticles);
 void graph_add_edge(struct Graph * g, int from, int to, int weight);
-struct Neighbor * graph_get_neighbor(struct Graph * g, int from);
+struct Neighbor * graph_get_neighbor(struct Graph * g, unsigned int from);
 void graph_free(struct Graph * g);

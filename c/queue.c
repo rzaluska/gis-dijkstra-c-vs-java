@@ -13,7 +13,7 @@ int priority_queue_is_empty(struct PriorityQueue * q) {
     return q->first == NULL;
 }
 
-void priority_queue_add_with_priority(struct PriorityQueue * q, int elem, int priority) {
+void priority_queue_add_with_priority(struct PriorityQueue * q, unsigned int elem, unsigned int priority) {
     struct PQElem * new_elem = (struct PQElem*)malloc(sizeof (struct PQElem));
     new_elem->val = elem;
     new_elem->priority = priority;
@@ -46,17 +46,37 @@ void priority_queue_add_with_priority(struct PriorityQueue * q, int elem, int pr
     prev->next = new_elem;
 }
 
+void priority_queue_decrease_priority(struct PriorityQueue * q, unsigned int val, unsigned int new_priority) {
+    struct PQElem * curr = q->first;
+    struct PQElem * prev = NULL;
+    while (curr != NULL) {
+        if (curr->val == val) {
+            if (curr == q->first) {
+                q->first = curr->next;
+                free(curr);
+            } else {
+                prev->next = curr->next;
+                free(curr);
+            }
+            priority_queue_add_with_priority(q, val, new_priority);
+            return;
+        }
+        prev = curr;
+        curr = curr->next;
+    }
+}
+
 void priority_queue_print(struct PriorityQueue * q) {
     struct PQElem * curr = q->first;
 
     puts("Dumping queue...");
     while (curr != NULL) {
-        printf("p: %d v: %d\n", curr->priority, curr->val);
+        printf("p: %u v: %u\n", curr->priority, curr->val);
         curr = curr->next;
     }
 }
 
-int priority_queue_extract_min(struct PriorityQueue * q) {
+unsigned int priority_queue_extract_min(struct PriorityQueue * q) {
     struct PQElem * min_elem = q->first;
     assert(min_elem != NULL);
     int to_return = min_elem->val;
@@ -73,4 +93,5 @@ void priority_queue_free(struct PriorityQueue * q) {
         curr = curr->next;
         free(to_free);
     }
+    free(q);
 }
