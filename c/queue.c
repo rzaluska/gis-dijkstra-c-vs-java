@@ -72,22 +72,15 @@ void priority_queue_decrease_priority(struct PriorityQueue * q, unsigned int val
     }
 }
 
-void priority_queue_print(struct PriorityQueue * q) {
-    struct PQElem * curr = &(q->elements[q->first]);
-
-    puts("Dumping queue...");
-    while (curr != NULL) {
-        printf("p: %u v: %u\n", curr->priority, curr->val);
-        curr = curr->next;
-    }
-}
-
 unsigned int priority_queue_extract_min(struct PriorityQueue * q) {
     struct PQElem * min_elem = &(q->elements[q->first]);
     int to_return = min_elem->val;
     q->size--;
     if (q->size > 0) {
         q->first = min_elem->next->index;
+    }
+    if (q->size == 0) {
+        q->first = -1;
     }
     return to_return;
 }
@@ -96,4 +89,14 @@ void priority_queue_free(struct PriorityQueue * q) {
     struct PQElem * elements = q->elements;
     free(elements);
     free(q);
+}
+
+void priority_queue_print(struct PriorityQueue * q) {
+    struct PQElem * curr = &(q->elements[q->first]);
+
+    puts("Dumping queue...");
+    while (curr != NULL) {
+        printf("p: %u v: %u\n", curr->priority, curr->val);
+        curr = curr->next;
+    }
 }

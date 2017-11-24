@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <limits.h>
 
-void dijkstra(struct Graph *g, int start) {
+unsigned int * dijkstra(struct Graph *g, int start) {
     unsigned int * distance_table = (unsigned int*)calloc(g->num_verticles, sizeof(unsigned int));
     struct PriorityQueue *q = new_priority_queue(g->num_verticles);
 
@@ -29,15 +29,6 @@ void dijkstra(struct Graph *g, int start) {
         }
     }
 
-    for (int i = 0; i < g->num_verticles; i++) {
-        if (i != start) {
-            if (i != g->num_verticles - 1) {
-                printf("%d ", distance_table[i]);
-            } else {
-                printf("%d", distance_table[i]);
-            }
-        }
-    }
     priority_queue_free(q);
-    free(distance_table);
+    return distance_table;
 }

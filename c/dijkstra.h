@@ -2,4 +2,4 @@
 
 #include "graph.h"
 
-void dijkstra(struct Graph *g, int start);
+unsigned int *dijkstra(struct Graph *g, int start);
