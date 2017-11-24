@@ -5,7 +5,7 @@
 struct PQElem {
     unsigned int val;
     unsigned int priority;
-    struct PQElem *next;
+    int next;
     int index;
 };
 
@@ -21,5 +21,4 @@ void priority_queue_add_with_priority(struct PriorityQueue * q, unsigned int ele
 int priority_queue_is_empty(struct PriorityQueue * q);
 unsigned int priority_queue_extract_min(struct PriorityQueue * q);
 void priority_queue_decrease_priority(struct PriorityQueue * q, unsigned int val, unsigned int new_priority);
-void priority_queue_print(struct PriorityQueue * q);
 void priority_queue_free(struct PriorityQueue * q);

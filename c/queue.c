@@ -16,31 +16,34 @@ int priority_queue_is_empty(struct PriorityQueue * q) {
     return q->size == 0;
 }
 
-void find_place_for_element(struct PriorityQueue * q, struct PQElem * new_elem) {
+void find_place_for_element(struct PriorityQueue * q, int new_index) {
     if (q->size == 1) {
         q->first = 0;
         return;
     }
 
+    struct PQElem * new_elem = &(q->elements[new_index]);
     struct PQElem * curr = &(q->elements[q->first]);
     struct PQElem * prev = NULL;
 
-    while (curr != NULL) {
+    while (1) {
         if (curr->priority > new_elem->priority) {
             if (curr->index == q->first) {
                 q->first = new_elem->index;
-                new_elem->next = curr;
             } else {
-                prev->next = new_elem;
-                new_elem->next = curr;
+                prev->next = new_elem->index;
             }
+            new_elem->next = curr->index;
             return;
         }
         prev = curr;
-        curr = curr->next;
+        if (curr->next == -1) {
+            break;
+        }
+        curr = &(q->elements[curr->next]);
     }
     //Add to end
-    prev->next = new_elem;
+    prev->next = new_elem->index;
 }
 
 void priority_queue_add_with_priority(struct PriorityQueue * q, unsigned int elem, unsigned int priority) {
@@ -51,24 +54,27 @@ void priority_queue_add_with_priority(struct PriorityQueue * q, unsigned int ele
     new_elem->val = elem;
     new_elem->index = element_index;
     new_elem->priority = priority;
-    new_elem->next = NULL;
-    find_place_for_element(q, new_elem);
+    new_elem->next = -1;
+    find_place_for_element(q, new_elem->index);
 }
 
 void priority_queue_decrease_priority(struct PriorityQueue * q, unsigned int val, unsigned int new_priority) {
     struct PQElem * curr = &(q->elements[q->first]);
     struct PQElem * prev = NULL;
-    while (curr != NULL) {
+    while (1) {
         if (curr->val == val) {
             curr->priority = new_priority;
             if (curr->index != q->first) {
                 prev->next = curr->next;
-                find_place_for_element(q, curr);
+                find_place_for_element(q, curr->index);
             }
             return;
         }
+        if (curr->next == -1) {
+            break;
+        }
         prev = curr;
-        curr = curr->next;
+        curr = &(q->elements[curr->next]);
     }
 }
 
@@ -77,9 +83,9 @@ unsigned int priority_queue_extract_min(struct PriorityQueue * q) {
     int to_return = min_elem->val;
     q->size--;
     if (q->size > 0) {
-        q->first = min_elem->next->index;
+        q->first = q->elements[min_elem->next].index;
     }
-    if (q->size == 0) {
+    else if (q->size == 0) {
         q->first = -1;
     }
     return to_return;
@@ -89,14 +95,4 @@ void priority_queue_free(struct PriorityQueue * q) {
     struct PQElem * elements = q->elements;
     free(elements);
     free(q);
-}
-
-void priority_queue_print(struct PriorityQueue * q) {
-    struct PQElem * curr = &(q->elements[q->first]);
-
-    puts("Dumping queue...");
-    while (curr != NULL) {
-        printf("p: %u v: %u\n", curr->priority, curr->val);
-        curr = curr->next;
-    }
 }
