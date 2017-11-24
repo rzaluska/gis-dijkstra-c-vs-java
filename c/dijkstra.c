@@ -6,7 +6,7 @@
 
 void dijkstra(struct Graph *g, int start) {
     unsigned int * distance_table = (unsigned int*)calloc(g->num_verticles, sizeof(unsigned int));
-    struct PriorityQueue *q = new_priority_queue();
+    struct PriorityQueue *q = new_priority_queue(g->num_verticles);
 
     distance_table[start] = 0;
     for (int i = 0; i < g->num_verticles; i++) {

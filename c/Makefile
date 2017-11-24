@@ -1,7 +1,9 @@
 all: dijkstra debug-dijkstra
 
+FLAGS=-Wall -Wextra -Wshadow
+
 dijkstra: main.c graph.c queue.c dijkstra.c
-	gcc -o $@ $^ -O3
+	gcc ${FLAGS} -o $@ $^ -O3
 
 debug-dijkstra: main.c graph.c queue.c dijkstra.c
-	gcc -o $@ $^ -g
+	gcc ${FLAGS} -o $@ $^ -g
