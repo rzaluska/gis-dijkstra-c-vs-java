@@ -70,10 +70,10 @@ void priority_queue_decrease_priority(struct PriorityQueue * q, unsigned int val
             }
             return;
         }
+        prev = curr;
         if (curr->next == -1) {
             break;
         }
-        prev = curr;
         curr = &(q->elements[curr->next]);
     }
 }

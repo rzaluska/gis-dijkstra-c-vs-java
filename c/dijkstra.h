@@ -2,4 +2,9 @@
 
 #include "graph.h"
 
-unsigned int *dijkstra(struct Graph *g, int start);
+struct DijkstraResult {
+    unsigned int * distance_table;
+    unsigned int * prev_table;
+};
+
+struct DijkstraResult dijkstra(struct Graph *g, int start);
