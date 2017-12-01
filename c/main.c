@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "graph.h"
 #include "dijkstra.h"
 #include "timer.h"
@@ -33,7 +34,7 @@ int main() {
         timer_start(&timer);
         struct DijkstraResult result = dijkstra(g, starting_verticle - 1);
         timer_stop(&timer);
-        timer_print(&timer, "# dijkstra fool took");
+        timer_print(&timer, "# dijkstra took");
         timer_start(&timer);
         for (int j = 0; j < g->num_verticles; j++) {
             if (j != starting_verticle - 1) {

@@ -14,14 +14,14 @@ void timer_stop(struct Timer *t) {
 }
 
 long timer_get_usec_delta(struct Timer *t) {
-    return (t->stop.tv_nsec - t->start.tv_nsec)/1000;
+    return (t->stop.tv_nsec - t->start.tv_nsec) / 1000;
 }
 
 long timer_get_sec_delta(struct Timer *t) {
     return t->stop.tv_sec - t->start.tv_sec;
 }
 
-void timer_cumpute_delta(struct Timer * timer) {
+void timer_update_delta(struct Timer * timer) {
     timer->delta_sec = timer_get_sec_delta(timer);
     if (timer->stop.tv_nsec < timer->start.tv_nsec) {
         timer->delta_sec--;
@@ -31,6 +31,7 @@ void timer_cumpute_delta(struct Timer * timer) {
 }
 
 void timer_print(struct Timer *timer, char * tag) {
-    timer_cumpute_delta(timer);
+    timer_update_delta(timer);
     printf("%s: %ld sec, %ld us\n", tag, timer->delta_sec, timer->delta_usec);
+    fflush(stdout);
 }
