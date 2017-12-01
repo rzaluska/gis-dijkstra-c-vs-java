@@ -26,7 +26,7 @@ struct  DijkstraResult dijkstra(struct Graph *g, int start) {
         priority_queue_add_with_priority(q, i, result.distance_table[i]);
     }
     timer_stop(&init);
-    timer_print(&init, "#dijkstra init");
+    timer_print(&init, "# dijkstra init");
 
     struct Timer loop;
     timer_start(&loop);
@@ -44,10 +44,10 @@ struct  DijkstraResult dijkstra(struct Graph *g, int start) {
         }
     }
     timer_stop(&loop);
-    timer_print(&loop, "#dijkstra loop");
+    timer_print(&loop, "# dijkstra loop");
 
     priority_queue_free(q);
     timer_stop(&timer);
-    timer_print(&timer, "#dijkstra inside");
+    timer_print(&timer, "# dijkstra inside");
     return result;
 }
