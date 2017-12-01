@@ -12,7 +12,7 @@ struct PQElem {
 struct PriorityQueue {
     struct PQElem *elements;
     int *lookup_index;
-    int *present;
+    int *previous;
     int first;
     int next_free;
     int size;
