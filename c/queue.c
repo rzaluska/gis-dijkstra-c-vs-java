@@ -27,6 +27,7 @@ void priority_queue_add_with_priority(struct PriorityQueue * q, unsigned int ele
     new_elem->index = element_index;
     new_elem->priority = priority;
     new_elem->next = -1;
+    new_elem->prev = -1;
     q->lookup_index[elem] = element_index;
     if (q->size == 1) {
         q->first = 0;
