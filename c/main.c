@@ -31,10 +31,7 @@ int main() {
         timer_print(&timer, "# graph build took");
         int starting_verticle = 0;
         scanf("%d\n", &starting_verticle);
-        timer_start(&timer);
         struct DijkstraResult result = dijkstra(g, starting_verticle - 1);
-        timer_stop(&timer);
-        timer_print(&timer, "# dijkstra took");
         timer_start(&timer);
         for (int j = 0; j < g->num_verticles; j++) {
             if (j != starting_verticle - 1) {

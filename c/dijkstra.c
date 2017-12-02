@@ -48,6 +48,6 @@ struct  DijkstraResult dijkstra(struct Graph *g, int start) {
 
     priority_queue_free(q);
     timer_stop(&timer);
-    timer_print(&timer, "# dijkstra inside");
+    timer_print(&timer, "# dijkstra took");
     return result;
 }
