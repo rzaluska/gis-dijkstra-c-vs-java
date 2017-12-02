@@ -1,6 +1,8 @@
 class PriorityQueue
 {
     private PQElem[] elements;
+    private int [] lookup_index;
+    private boolean [] present;
     private int first;
     private int next_free;
     private int size;
@@ -14,6 +16,9 @@ class PriorityQueue
         {
             elements[i] = new PQElem();
         }
+
+        lookup_index = new int[max_elements];
+        present = new boolean[max_elements];
     }
 
     public void priority_queue_add_with_priority(int elem, int priority)
@@ -26,94 +31,44 @@ class PriorityQueue
         new_elem.setIndex(element_index);
         new_elem.setPriority(priority);
         new_elem.setNext(-1);
-        find_place_for_element(new_elem.getIndex());
+        lookup_index[elem] = element_index;
+        present[element_index] = true;
     }
 
     void priority_queue_decrease_priority(int val, int new_priority)
     {
-        PQElem curr = elements[first];
-        PQElem prev = null;
-        while (true)
-        {
-            if (curr.getVal() == val)
-            {
-                curr.setPriority(new_priority);
-                if (curr.getIndex() != first)
-                {
-                    prev.setNext(curr.getNext());
-                    find_place_for_element(curr.getIndex());
-                }
-                return;
-            }
-            if (curr.getNext() == -1)
-            {
-                break;
-            }
-            prev = curr;
-            curr = elements[curr.getNext()];
-        }
+        int element_index = lookup_index[val];
+        PQElem curr = elements[element_index];
+        curr.setPriority(new_priority);
     }
 
     int priority_queue_extract_min()
     {
-        PQElem min_elem = elements[first];
-        int to_return = min_elem.getVal();
-        size--;
-        if (size > 0)
+        int min = Integer.MAX_VALUE;
+        int val = -1;
+        int index = -1;
+
+        for(int i = 0; i < next_free; ++i)
         {
-            first = elements[min_elem.getNext()].getIndex();
-        } else if (size == 0)
-        {
-            first = -1;
+            if(!present[i])
+                continue;
+
+            if(elements[i].getPriority() < min)
+            {
+                min = elements[i].getPriority();
+                val = elements[i].getVal();
+                index = i;
+            }
         }
-        return to_return;
+
+        present[index] = false;
+        size--;
+        return val;
     }
 
     public boolean priority_queue_is_empty()
     {
         return size == 0;
-    }
-
-    public void priority_queue_free()
-    {
-        elements = null;
-    }
-
-    private void find_place_for_element(int new_index)
-    {
-        if (size == 1)
-        {
-            first = 0;
-            return;
-        }
-
-        PQElem new_elem = elements[new_index];
-        PQElem curr = elements[first];
-        PQElem prev = null;
-
-        while (true)
-        {
-            if (curr.getPriority() > new_elem.getPriority())
-            {
-                if (curr.getIndex() == first)
-                {
-                    first = new_elem.getIndex();
-                } else
-                {
-                    prev.setNext(new_elem.getIndex());
-                }
-                new_elem.setNext(curr.getIndex());
-                return;
-            }
-            prev = curr;
-            if (curr.getNext() == -1)
-            {
-                break;
-            }
-            curr = elements[curr.getNext()];
-        }
-        //Add to end
-        prev.setNext(new_elem.getIndex());
     }
 }
 
