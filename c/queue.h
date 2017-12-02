@@ -6,13 +6,13 @@ struct PQElem {
     unsigned int val;
     unsigned int priority;
     int next;
+    int prev;
     int index;
 };
 
 struct PriorityQueue {
     struct PQElem *elements;
     int *lookup_index;
-    int *previous;
     int first;
     int next_free;
     int size;
