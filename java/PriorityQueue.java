@@ -2,7 +2,6 @@ class PriorityQueue
 {
     private PQElem[] elements;
     private int [] lookup_index;
-    private int [] previous;
     private int first;
     private int next_free;
     private int size;
@@ -18,7 +17,6 @@ class PriorityQueue
         }
 
         lookup_index = new int[max_elements];
-        previous = new int[max_elements];
     }
 
     public void priority_queue_add_with_priority(int elem, int priority)
@@ -40,7 +38,7 @@ class PriorityQueue
 
         PQElem prev = elements[element_index - 1];
         prev.setNext(element_index);
-        previous[element_index] = element_index - 1;
+        new_elem.setPrev(prev.getIndex());
     }
 
     void priority_queue_decrease_priority(int val, int new_priority)
@@ -53,8 +51,8 @@ class PriorityQueue
     int priority_queue_extract_min()
     {
         int min = Integer.MAX_VALUE;
-        int val = -1;
-        int index = -1;
+        int val = 0;
+        int index = 0;
 
         for(int i = first; i != -1;)
         {
@@ -69,13 +67,14 @@ class PriorityQueue
 
         if (index == 0)
             first = elements[0].getNext();
-        else
+        if (elements[index].getNext() != -1)
+            elements[elements[index].getNext()].setPrev(elements[index].getPrev());
+
+        if (elements[index].getPrev() != -1)
         {
-            elements[previous[index]].setNext(elements[index].getNext());
-            if(elements[index].getNext() != -1)
-                previous[elements[index].getNext()] = previous[index];
+            elements[elements[index].getPrev()].setNext(elements[index].getNext());
         }
-        previous[index] = 0;
+
         size--;
         return val;
     }
@@ -92,6 +91,17 @@ class PQElem
     private int priority;
     private int next;
     private int index;
+    private int prev;
+
+    public int getPrev()
+    {
+        return prev;
+    }
+
+    public void setPrev(int prev)
+    {
+        this.prev = prev;
+    }
 
     public int getVal()
     {
