@@ -14,7 +14,7 @@ echo '"v","e","s","t"' >> results_c.txt
 echo '"v","e","s","t"' >> results_java.txt
 
 # benchmarks for random graphs
-for v in 10 100 1000 10000 100000 1000000; do
+for v in 10 100 1000 10000; do
     max_edges=$(($v*$v/2))
     inc=$(($max_edges/6)) #6 steps increment of number of edeges
     for e in $(seq 10 $inc $max_edges); do

@@ -32,7 +32,6 @@ for i in range(args.e):
                 break
 
 
-
 for k,v in connectionsMap.items():
     print("{} {} {}".format(k[0], k[1], v))
 
