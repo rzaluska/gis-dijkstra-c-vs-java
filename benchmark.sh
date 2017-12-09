@@ -10,6 +10,9 @@ cd java
 javac *.java
 cd ..
 
+echo '"v","e","s","t"' >> results_c.txt
+echo '"v","e","s","t"' >> results_java.txt
+
 # benchmarks for random graphs
 for v in 10 100 1000 10000 100000 1000000; do
     max_edges=$(($v*$v/2))
