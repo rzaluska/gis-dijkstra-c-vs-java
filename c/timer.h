@@ -12,4 +12,4 @@ void timer_start(struct Timer *t);
 void timer_stop(struct Timer *t);
 long timer_get_usec_delta(struct Timer *t);
 long timer_get_sec_delta(struct Timer *t);
-void timer_print(struct Timer *t, char * tag);
+void timer_print(struct Timer *timer, int v, int e, int stage);

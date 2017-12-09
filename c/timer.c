@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stddef.h>
 #include "timer.h"
+#include "graph.h"
 
 void timer_start(struct Timer *t) {
     clock_gettime(CLOCK_MONOTONIC_RAW, &t->start);
@@ -30,8 +31,8 @@ void timer_update_delta(struct Timer * timer) {
     timer->delta_usec = timer_get_usec_delta(timer);
 }
 
-void timer_print(struct Timer *timer, char * tag) {
+void timer_print(struct Timer *timer, int v, int e, int stage) {
     timer_update_delta(timer);
-    printf("%s: %ld sec, %ld us\n", tag, timer->delta_sec, timer->delta_usec);
+    printf("%d,%d,%d,%ld\n", v, e, stage, timer->delta_sec*(long)10e6 + timer->delta_usec);
     fflush(stdout);
 }

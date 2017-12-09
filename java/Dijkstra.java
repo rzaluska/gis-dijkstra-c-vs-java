@@ -18,20 +18,21 @@ public class Dijkstra
         Timer timer = new Timer();
         Timer all = new Timer();
         all.timer_start();
+        /*
         try
         {
-            System.setIn(new FileInputStream("test-cases/0.in.txt"));
+            //System.setIn(new FileInputStream("test-cases/0.in.txt"));
         } catch (FileNotFoundException e)
         {
             //e.printStackTrace();
         }
+        */
         Scanner sc = new Scanner(System.in);
         int num_test_cases = sc.nextInt();
         for (int i = 0; i < num_test_cases; i++)
         {
             int num_verticles = sc.nextInt();
             int num_edges = sc.nextInt();
-            System.out.printf("### graph with %d vertices and %d edges\n", num_verticles, num_edges);
             timer.timer_start();
             Graph g = new Graph(num_verticles);
             for (int j = 0; j < num_edges; j++)
@@ -42,13 +43,11 @@ public class Dijkstra
                 g.graph_add_edge(edge1, edge2, weight);
             }
             timer.timer_stop();
-            timer.print("# graph build took");
+            timer.print(num_verticles, num_edges, 0);
             int starting_verticle = sc.nextInt();
-            timer.timer_start();
-            DijkstraResult result = dijkstra(g, starting_verticle - 1);
-            timer.timer_stop();
-            timer.print("# dijkstra took");
-            timer.timer_start();
+            DijkstraResult result = dijkstra(g, starting_verticle - 1, num_verticles, num_edges);
+            //timer.timer_start();
+            /*
             for (int j = 0; j < g.getNum_vertices(); j++)
             {
                 if (j != starting_verticle - 1)
@@ -79,12 +78,13 @@ public class Dijkstra
             System.out.println();
             timer.timer_stop();
             timer.print("# print result took");
+            */
         }
-        all.timer_stop();
-        all.print("# execution took");
+        //all.timer_stop();
+        //all.print("# execution took");
     }
 
-    static DijkstraResult dijkstra(Graph g, int start)
+    static DijkstraResult dijkstra(Graph g, int start, int v, int e)
     {
         Timer timer = new Timer();
         timer.timer_start();
@@ -105,7 +105,7 @@ public class Dijkstra
             q.priority_queue_add_with_priority(i, distance_table[i]);
         }
         init.timer_stop();
-        init.print("# dijkstra init");
+        init.print(v,e,1);
 
         Timer loop = new Timer();
         loop.timer_start();
@@ -125,12 +125,12 @@ public class Dijkstra
             }
         }
         loop.timer_stop();
-        loop.print("# dijkstra loop");
+        loop.print(v,e,2);
         DijkstraResult result = new DijkstraResult();
         result.distance_table = distance_table;
         result.prev_table = prev_table;
         timer.timer_stop();
-        timer.print("# dijkstra inside");
+        timer.print(v,e,3);
         return result;
     }
 }

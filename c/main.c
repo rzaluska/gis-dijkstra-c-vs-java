@@ -8,8 +8,6 @@
 int main() {
     // Read graph data from stdin
     // Write result to stdout
-    struct Timer all;
-    timer_start(&all);
     int num_test_cases = 0;
     scanf("%d\n", &num_test_cases);
     for (int i = 0; i < num_test_cases; i++) {
@@ -17,7 +15,7 @@ int main() {
         int num_verticles = 0;
         int num_edges = 0;
         scanf("%d %d\n", &num_verticles, &num_edges);
-        printf("### graph with: %d vertices and %d edges\n", num_verticles, num_edges);
+        //printf("### graph with: %d vertices and %d edges\n", num_verticles, num_edges);
         timer_start(&timer);
         struct Graph * g = new_graph(num_verticles);
         for (int j = 0; j < num_edges; j++) {
@@ -28,11 +26,11 @@ int main() {
             graph_add_edge(g, edge1, edge2, weight);
         }
         timer_stop(&timer);
-        timer_print(&timer, "# graph build took");
+        timer_print(&timer, num_verticles, num_edges, 0);
         int starting_verticle = 0;
         scanf("%d\n", &starting_verticle);
-        struct DijkstraResult result = dijkstra(g, starting_verticle - 1);
-        timer_start(&timer);
+        struct DijkstraResult result = dijkstra(g, starting_verticle - 1, num_verticles, num_edges);
+        /*
         for (int j = 0; j < g->num_verticles; j++) {
             if (j != starting_verticle - 1) {
                 if (j != g->num_verticles - 1) {
@@ -52,12 +50,9 @@ int main() {
                 }
             }
         }
-        timer_stop(&timer);
-        timer_print(&timer, "\n# print result took");
+        */
         free(result.distance_table);
         free(result.prev_table);
         graph_free(g);
     }
-    timer_stop(&all);
-    timer_print(&all, "# execution took");
 }

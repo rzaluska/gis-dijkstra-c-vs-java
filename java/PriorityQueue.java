@@ -29,6 +29,7 @@ class PriorityQueue
         new_elem.setIndex(element_index);
         new_elem.setPriority(priority);
         new_elem.setNext(-1);
+        new_elem.setPrev(-1);
         lookup_index[elem] = element_index;
         if(size == 1)
         {

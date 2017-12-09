@@ -36,9 +36,9 @@ public class Timer
         this.delta_usec = this.timer_get_usec_delta() % (long)1e6;
     }
 
-    public void print(String tag) {
+    public void print(int v, int e, int stage) {
         this.update_delta();
-        System.out.printf("%s: %d sec %d usec\n", tag, this.delta_sec, this.delta_usec);
+        System.out.printf("%d,%d,%d,%d\n", v, e, stage, this.delta_sec * (long)10e6 + this.delta_usec);
 
     }
 
