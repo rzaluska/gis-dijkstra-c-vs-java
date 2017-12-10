@@ -10,10 +10,6 @@ args = parser.parse_args()
 if args.e > args.v * (args.v - 1):
     raise Exception("Can't construct graph with {v} verticles and {e} edges (too many edges)".format(v=args.v, e=args.e))
 
-
-print(1)
-print("{v} {e}".format(v=args.v, e=args.e))
-
 connectionsMap = {}
 
 for i in range(args.e):
@@ -31,6 +27,8 @@ for i in range(args.e):
                 connectionsMap[e] = randint(1, args.w)
                 break
 
+print(1)
+print("{v} {e}".format(v=args.v, e=args.e))
 
 for k,v in connectionsMap.items():
     print("{} {} {}".format(k[0], k[1], v))
