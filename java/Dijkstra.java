@@ -109,24 +109,20 @@ public class Dijkstra
 
         Timer loop = new Timer();
         loop.timer_start();
-        int i = 0;
         while (!q.priority_queue_is_empty())
         {
             int min_vertex = q.priority_queue_extract_min();
-            System.out.println(min_vertex);
             LinkedList<Neighbor> neighbors = g.graph_get_neighbors(min_vertex);
             for (Neighbor n: neighbors) {
                 long alternative = distance_table[min_vertex] + n.getWeight();
                 if (alternative < distance_table[n.getVertex_index()])
                 {
-                    i++;
                     distance_table[n.getVertex_index()] = alternative;
                     prev_table[n.getVertex_index()] = min_vertex;
                     q.priority_queue_decrease_priority(n.getVertex_index(), alternative);
                 }
             }
         }
-        System.out.println(i);
         loop.timer_stop();
         loop.print(v,e,2);
         DijkstraResult result = new DijkstraResult();
