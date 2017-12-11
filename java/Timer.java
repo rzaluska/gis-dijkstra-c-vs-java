@@ -38,7 +38,7 @@ public class Timer
 
     public void print(int v, int e, int stage) {
         this.update_delta();
-        System.out.printf("%d,%d,%d,%d\n", v, e, stage, this.delta_sec * (long)10e6 + this.delta_usec);
+        System.out.printf("%d,%d,%d,%d\n", v, e, stage, this.delta_sec * 1000000 + this.delta_usec);
 
     }
 

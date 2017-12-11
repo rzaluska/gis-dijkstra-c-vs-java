@@ -33,6 +33,5 @@ void timer_update_delta(struct Timer * timer) {
 
 void timer_print(struct Timer *timer, int v, int e, int stage) {
     timer_update_delta(timer);
-    printf("%d,%d,%d,%ld\n", v, e, stage, timer->delta_sec*(long)10e6 + timer->delta_usec);
-    fflush(stdout);
+    printf("%d,%d,%d,%ld\n", v, e, stage, timer->delta_sec*1000000 + timer->delta_usec);
 }

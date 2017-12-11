@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Graph
 {
@@ -21,7 +21,7 @@ public class Graph
         }
     }
 
-    public void graph_add_single_edge(int from, int to, int weight)
+    public void graph_add_single_edge(int from, int to, long weight)
     {
         Vertex f = vertex_array[from - 1];
         Neighbor nforward = new Neighbor();
@@ -30,13 +30,13 @@ public class Graph
         f.addNeighbor(nforward);
     }
 
-    void graph_add_edge(int from, int to, int weight)
+    void graph_add_edge(int from, int to, long weight)
     {
         graph_add_single_edge(from, to, weight);
         graph_add_single_edge(to, from, weight);
     }
 
-    ArrayList<Neighbor> graph_get_neighbors(int from)
+    LinkedList<Neighbor> graph_get_neighbors(int from)
     {
         Vertex f = vertex_array[from];
         return f.getNeighbors();
@@ -46,7 +46,7 @@ public class Graph
 class Neighbor
 {
     private int vertex_index;
-    private int weight;
+    private long weight;
 
     public int getVertex_index()
     {
@@ -58,12 +58,12 @@ class Neighbor
         this.vertex_index = vertex_index;
     }
 
-    public int getWeight()
+    public long getWeight()
     {
         return weight;
     }
 
-    public void setWeight(int weight)
+    public void setWeight(long weight)
     {
         this.weight = weight;
     }
@@ -71,11 +71,11 @@ class Neighbor
 
 class Vertex
 {
-    private ArrayList<Neighbor> neighbors;
+    private LinkedList<Neighbor> neighbors;
 
     public Vertex()
     {
-        neighbors = new ArrayList<>();
+        neighbors = new LinkedList<>();
     }
 
     public Neighbor getNeighbor(int index)
@@ -83,7 +83,7 @@ class Vertex
         return neighbors.get(index);
     }
 
-    public ArrayList<Neighbor> getNeighbors()
+    public LinkedList<Neighbor> getNeighbors()
     {
         return neighbors;
     }

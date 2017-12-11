@@ -1,14 +1,15 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Dijkstra
 {
     public static class DijkstraResult {
-        public int[] distance_table;
-        public int[] prev_table;
+        public long[] distance_table;
+        public long[] prev_table;
     }
 
     public static void main(String[] args) throws Exception
@@ -61,7 +62,9 @@ public class Dijkstra
                     }
                 }
             }
+            /*
             System.out.println();
+            /*
             for (int j = 0; j < g.getNum_vertices(); j++)
             {
                 if (j != starting_verticle - 1)
@@ -75,9 +78,6 @@ public class Dijkstra
                     }
                 }
             }
-            System.out.println();
-            timer.timer_stop();
-            timer.print("# print result took");
             */
         }
         //all.timer_stop();
@@ -88,8 +88,8 @@ public class Dijkstra
     {
         Timer timer = new Timer();
         timer.timer_start();
-        int[] distance_table = new int[g.getNum_vertices()];
-        int[] prev_table = new int[g.getNum_vertices()];
+        long[] distance_table = new long[g.getNum_vertices()];
+        long[] prev_table = new long[g.getNum_vertices()];
         PriorityQueue q = new PriorityQueue(g.getNum_vertices());
 
         Timer init = new Timer();
@@ -109,21 +109,24 @@ public class Dijkstra
 
         Timer loop = new Timer();
         loop.timer_start();
+        int i = 0;
         while (!q.priority_queue_is_empty())
         {
             int min_vertex = q.priority_queue_extract_min();
-            ArrayList<Neighbor> neighbors = g.graph_get_neighbors(min_vertex);
-            for (int i = 0; i < neighbors.size(); ++i)
-            {
-                int alternative = distance_table[min_vertex] + neighbors.get(i).getWeight();
-                if (alternative < distance_table[neighbors.get(i).getVertex_index()])
+            System.out.println(min_vertex);
+            LinkedList<Neighbor> neighbors = g.graph_get_neighbors(min_vertex);
+            for (Neighbor n: neighbors) {
+                long alternative = distance_table[min_vertex] + n.getWeight();
+                if (alternative < distance_table[n.getVertex_index()])
                 {
-                    distance_table[neighbors.get(i).getVertex_index()] = alternative;
-                    prev_table[neighbors.get(i).getVertex_index()] = min_vertex;
-                    q.priority_queue_decrease_priority(neighbors.get(i).getVertex_index(), alternative);
+                    i++;
+                    distance_table[n.getVertex_index()] = alternative;
+                    prev_table[n.getVertex_index()] = min_vertex;
+                    q.priority_queue_decrease_priority(n.getVertex_index(), alternative);
                 }
             }
         }
+        System.out.println(i);
         loop.timer_stop();
         loop.print(v,e,2);
         DijkstraResult result = new DijkstraResult();

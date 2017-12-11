@@ -3,7 +3,7 @@ all: dijkstra debug-dijkstra
 FLAGS=-Wall -Wextra -Wshadow
 
 dijkstra: main.c graph.c queue.c dijkstra.c timer.c
-	gcc ${FLAGS} -o $@ $^ -O3
+	gcc ${FLAGS} -O2 -o $@ $^
 
 debug-dijkstra: main.c graph.c queue.c dijkstra.c timer.c
-	gcc ${FLAGS} -o $@ $^ -g
+	gcc -DDEBUG ${FLAGS} -o $@ $^ -g

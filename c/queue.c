@@ -45,11 +45,18 @@ void priority_queue_decrease_priority(struct PriorityQueue * q, unsigned int val
 }
 
 unsigned int priority_queue_extract_min(struct PriorityQueue * q) {
+#ifdef DEBUG
+    printf("START_EXTRACT_MIN\n");
+#endif
     unsigned int min = UINT_MAX;
     int val = 0;
     int index = 0;
 
     for (int i = q->first; i != -1;) {
+#ifdef DEBUG
+        printf("q->elements[%d].priority = %u\n", i, q->elements[i].priority);
+        printf("q->elements[%d].val = %d\n", i, q->elements[i].val);
+#endif
         if (q->elements[i].priority <= min) {
             min = q->elements[i].priority;
             val = q->elements[i].val;
@@ -57,8 +64,8 @@ unsigned int priority_queue_extract_min(struct PriorityQueue * q) {
         }
         i = q->elements[i].next;
     }
-    if (index == 0) {
-        q->first = q->elements[0].next;
+    if (index == q->first) {
+        q->first = q->elements[index].next;
     }
     if (q->elements[index].next != -1) {
         q->elements[q->elements[index].next].prev = q->elements[index].prev;
@@ -68,6 +75,9 @@ unsigned int priority_queue_extract_min(struct PriorityQueue * q) {
         q->elements[q->elements[index].prev].next = q->elements[index].next;
     }
     q->size--;
+#ifdef DEBUG
+    printf("END_EXTRACT_MIN returning %d\n", val);
+#endif
     return val;
 }
 
