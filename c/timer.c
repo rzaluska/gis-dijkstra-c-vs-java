@@ -15,7 +15,7 @@ void timer_stop(struct Timer *t) {
 }
 
 long timer_get_usec_delta(struct Timer *t) {
-    return (t->stop.tv_nsec - t->start.tv_nsec) / 1000;
+    return (t->stop.tv_nsec - t->start.tv_nsec);
 }
 
 long timer_get_sec_delta(struct Timer *t) {
@@ -33,5 +33,5 @@ void timer_update_delta(struct Timer * timer) {
 
 void timer_print(struct Timer *timer, int v, int e, int stage) {
     timer_update_delta(timer);
-    printf("%d,%d,%d,%ld\n", v, e, stage, timer->delta_sec*1000000 + timer->delta_usec);
+    printf("%d,%d,%d,%ld\n", v, e, stage, timer->delta_sec*1000000000 + timer->delta_usec);
 }

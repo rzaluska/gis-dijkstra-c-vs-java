@@ -34,12 +34,15 @@ struct DijkstraResult dijkstra(struct Graph *g, int start, int v, int e) {
         struct Neighbor * neighbor = graph_get_neighbor(g, min_verticle);
         while (neighbor != NULL) {
             unsigned int alternative = distance_table[min_verticle] + neighbor->weight;
-            if (alternative < distance_table[neighbor->vertex_index]) {
-                distance_table[neighbor->vertex_index] = alternative;
-                prev_table[neighbor->vertex_index] = min_verticle;
-                priority_queue_decrease_priority(q, neighbor->vertex_index, alternative);
+            int vertex_index = neighbor->vertex_index;
+            if (alternative < distance_table[vertex_index]) {
+                distance_table[vertex_index] = alternative;
+                prev_table[vertex_index] = min_verticle;
+                priority_queue_decrease_priority(q, vertex_index, alternative);
             }
             neighbor = neighbor->next;
+            //timer_stop(&inner);
+            //timer_print(&inner, v, e, 4);
         }
     }
     timer_stop(&loop);

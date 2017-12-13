@@ -48,7 +48,6 @@ public class Dijkstra
             int starting_verticle = sc.nextInt();
             DijkstraResult result = dijkstra(g, starting_verticle - 1, num_verticles, num_edges);
             //timer.timer_start();
-            /*
             for (int j = 0; j < g.getNum_vertices(); j++)
             {
                 if (j != starting_verticle - 1)
@@ -62,9 +61,7 @@ public class Dijkstra
                     }
                 }
             }
-            /*
             System.out.println();
-            /*
             for (int j = 0; j < g.getNum_vertices(); j++)
             {
                 if (j != starting_verticle - 1)
@@ -78,10 +75,8 @@ public class Dijkstra
                     }
                 }
             }
-            */
+            System.out.println();
         }
-        //all.timer_stop();
-        //all.print("# execution took");
     }
 
     static DijkstraResult dijkstra(Graph g, int start, int v, int e)
@@ -112,8 +107,8 @@ public class Dijkstra
         while (!q.priority_queue_is_empty())
         {
             int min_vertex = q.priority_queue_extract_min();
-            LinkedList<Neighbor> neighbors = g.graph_get_neighbors(min_vertex);
-            for (Neighbor n: neighbors) {
+            Neighbor n = g.graph_get_neighbors(min_vertex);
+            while (n != null) {
                 long alternative = distance_table[min_vertex] + n.getWeight();
                 if (alternative < distance_table[n.getVertex_index()])
                 {
@@ -121,6 +116,7 @@ public class Dijkstra
                     prev_table[n.getVertex_index()] = min_vertex;
                     q.priority_queue_decrease_priority(n.getVertex_index(), alternative);
                 }
+                n = n.next;
             }
         }
         loop.timer_stop();

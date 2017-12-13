@@ -27,7 +27,7 @@ public class Timer
     public long timer_get_usec_delta()
     {
         if(is_timer_setup())
-            return TimeUnit.MICROSECONDS.convert(stop - start, TimeUnit.NANOSECONDS);
+            return stop - start;
         return -1;
     }
 
@@ -38,7 +38,7 @@ public class Timer
 
     public void print(int v, int e, int stage) {
         this.update_delta();
-        System.out.printf("%d,%d,%d,%d\n", v, e, stage, this.delta_sec * 1000000 + this.delta_usec);
+        System.out.printf("%d,%d,%d,%d\n", v, e, stage, stop - start);
 
     }
 

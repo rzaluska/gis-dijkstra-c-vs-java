@@ -27,7 +27,13 @@ public class Graph
         Neighbor nforward = new Neighbor();
         nforward.setVertex_index(to - 1);
         nforward.setWeight(weight);
-        f.addNeighbor(nforward);
+        nforward.next = null;
+        if (f.neighbors == null) {
+            f.neighbors = nforward;
+        } else {
+            nforward.next = f.neighbors;
+            f.neighbors = nforward;
+        }
     }
 
     void graph_add_edge(int from, int to, long weight)
@@ -36,10 +42,10 @@ public class Graph
         graph_add_single_edge(to, from, weight);
     }
 
-    LinkedList<Neighbor> graph_get_neighbors(int from)
+    Neighbor graph_get_neighbors(int from)
     {
         Vertex f = vertex_array[from];
-        return f.getNeighbors();
+        return f.neighbors;
     }
 }
 
@@ -67,34 +73,10 @@ class Neighbor
     {
         this.weight = weight;
     }
+    public Neighbor next;
 }
 
 class Vertex
 {
-    private LinkedList<Neighbor> neighbors;
-
-    public Vertex()
-    {
-        neighbors = new LinkedList<>();
-    }
-
-    public Neighbor getNeighbor(int index)
-    {
-        return neighbors.get(index);
-    }
-
-    public LinkedList<Neighbor> getNeighbors()
-    {
-        return neighbors;
-    }
-
-    void addNeighbor(Neighbor n)
-    {
-        neighbors.add(n);
-    }
-
-    public boolean isEmpty()
-    {
-        return neighbors.size() == 0;
-    }
+    public Neighbor neighbors;
 }

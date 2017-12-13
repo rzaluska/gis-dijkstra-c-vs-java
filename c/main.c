@@ -30,7 +30,6 @@ int main() {
         int starting_verticle = 0;
         scanf("%d\n", &starting_verticle);
         struct DijkstraResult result = dijkstra(g, starting_verticle - 1, num_verticles, num_edges);
-       
         /*
         for (int j = 0; j < g->num_verticles; j++) {
             if (j != starting_verticle - 1) {
@@ -54,9 +53,8 @@ int main() {
             }
         }
         */
-        
-        free(result.distance_table);
-        free(result.prev_table);
-        graph_free(g);
+        //free(result.distance_table);
+        //free(result.prev_table);
+        //graph_free(g);
     }
 }
